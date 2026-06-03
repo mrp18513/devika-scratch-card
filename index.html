@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devika Sound Barbigha - Scratch & Win</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0d0d0d;
+color:#fff;
+text-align:center;
+}
+
+.header{
+background:linear-gradient(135deg,#ff0000,#7a0000);
+padding:25px;
+box-shadow:0 0 20px rgba(255,0,0,.5);
+}
+
+.header h1{
+font-size:30px;
+}
+
+.header p{
+margin-top:8px;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:#1b1b1b;
+padding:20px;
+border-radius:15px;
+box-shadow:0 0 15px rgba(255,0,0,.3);
+}
+
+.social-btn{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+background:#ff0000;
+color:white;
+text-decoration:none;
+padding:15px;
+margin:12px 0;
+border-radius:10px;
+font-weight:bold;
+transition:.3s;
+}
+
+.social-btn:hover{
+transform:scale(1.03);
+}
+
+.social-btn img{
+height:26px;
+width:auto;
+background:white;
+padding:2px;
+border-radius:4px;
+}
+
+.timer{
+margin-top:20px;
+font-size:28px;
+font-weight:bold;
+color:#ffd700;
+}
+
+#scratchArea{
+display:none;
+margin-top:25px;
+}
+
+.scratch-card{
+width:320px;
+height:180px;
+margin:auto;
+position:relative;
+border-radius:15px;
+overflow:hidden;
+border:3px solid #ffd700;
+}
+
+.offer{
+position:absolute;
+width:100%;
+height:100%;
+background:white;
+color:black;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:10px;
+font-size:22px;
+font-weight:bold;
+}
+
+canvas{
+position:absolute;
+top:0;
+left:0;
+}
+
+.whatsapp{
+display:inline-block;
+margin-top:20px;
+background:#25D366;
+color:white;
+text-decoration:none;
+padding:14px 22px;
+border-radius:10px;
+font-weight:bold;
+}
+
+.footer{
+margin-top:25px;
+color:#aaa;
+font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>DEVIKA SOUND BARBIGHA</h1>
+<p>🎁 Follow & Win Special Offer</p>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Follow Our Social Media</h2>
+
+<a class="social-btn"
+href="https://youtube.com/@devikasound.9266"
+target="_blank">
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png">
+<span>YouTube Subscribe</span>
+</a>
+
+<a class="social-btn"
+href="https://www.facebook.com/share/18n6AKD9Zc/"
+target="_blank">
+<img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg">
+<span>Facebook Follow</span>
+</a>
+
+<a class="social-btn"
+href="https://www.instagram.com/devika_sound_887?igsh=MWZ0cHAyanhweWk5OA=="
+target="_blank">
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
+<span>Instagram Follow</span>
+</a>
+
+<div class="timer">
+Offer Unlocking In <span id="count">15</span>s
+</div>
+
+</div>
+
+<div id="scratchArea">
+
+<h2 style="margin-bottom:15px;">
+🎉 Scratch & Win
+</h2>
+
+<div class="scratch-card">
+<div class="offer" id="offer"></div>
+<canvas id="canvas" width="320" height="180"></canvas>
+</div>
+
+<a class="whatsapp"
+href="https://wa.me/918873555355"
+target="_blank">
+📱 Claim On WhatsApp
+</a>
+
+</div>
+
+<div class="footer">
+© Devika Sound Barbigha
+</div>
+
+</div>
+
+<script>
+
+let sec = 15;
+
+let timer = setInterval(function(){
+
+sec--;
+
+document.getElementById("count").innerHTML = sec;
+
+if(sec <= 0){
+
+clearInterval(timer);
+
+document.getElementById("scratchArea").style.display = "block";
+
+generateOffer();
+
+setupScratch();
+
+}
+
+},1000);
+
+function generateOffer(){
+
+let random = Math.random();
+let reward = "";
+
+if(random < 0.10){
+
+reward = "🏆 ₹200 OFF<br>Coupon: DEVIKA200";
+
+}
+else if(random < 0.70){
+
+reward = "🎁 ₹100 OFF<br>Coupon: DEVIKA100";
+
+}
+else if(random < 0.90){
+
+reward = "💥 2% OFF<br>Coupon: DEVIKA2";
+
+}
+else{
+
+reward = "😔 Best Of Luck Next Time<br><small>Follow Us For More Offers</small>";
+
+}
+
+document.getElementById("offer").innerHTML = reward;
+
+}
+
+function setupScratch(){
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+ctx.fillStyle = "#888";
+ctx.fillRect(0,0,320,180);
+
+ctx.fillStyle = "#fff";
+ctx.font = "bold 24px Arial";
+ctx.fillText("SCRATCH HERE",65,95);
+
+let down = false;
+
+function scratch(x,y){
+
+if(!down) return;
+
+ctx.globalCompositeOperation = "destination-out";
+
+ctx.beginPath();
+ctx.arc(x,y,25,0,Math.PI*2);
+ctx.fill();
+
+}
+
+canvas.addEventListener("mousedown",()=>down=true);
+canvas.addEventListener("mouseup",()=>down=false);
+
+canvas.addEventListener("mousemove",(e)=>{
+const rect = canvas.getBoundingClientRect();
+scratch(
+e.clientX-rect.left,
+e.clientY-rect.top
+);
+});
+
+canvas.addEventListener("touchstart",()=>down=true);
+canvas.addEventListener("touchend",()=>down=false);
+
+canvas.addEventListener("touchmove",(e)=>{
+const rect = canvas.getBoundingClientRect();
+scratch(
+e.touches[0].clientX-rect.left,
+e.touches[0].clientY-rect.top
+);
+});
+
+}
+
+</script>
+
+</body>
+</html>
